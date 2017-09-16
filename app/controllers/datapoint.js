@@ -27,6 +27,12 @@ router.get('/:datapoint_id', function(req, res) {
     });
 });
 
+router.get('/next_no_label', function(req, res) {
+   Datapoint.findOne({labelled: false}, function(err, result) {
+      return result._id; 
+   });
+});
+
 router.put('/:datapoint_id', function(req, res) {
     req.checkBody('label', 'Label is required')
                                     .notEmpty()
