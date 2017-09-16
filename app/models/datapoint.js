@@ -15,17 +15,17 @@ module.exports = mongoose.model('Datapoint', new Schema({
         default: false
     },
     label: {
-	type: String,
-	required: true,
-	default: "No label"
+        type: String,
+        required: true,
+        default: "No label"
     },
     latitude: {
-	type: Double,
-	required: true
+        type: Double,
+        required: true
     },
     longitude: {
-	type: Double,
-	required: true
+        type: Double,
+        required: true
     },
     keys: [Schema(Key)]
 }));
