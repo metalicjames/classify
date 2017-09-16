@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Key = require('./key');
-
 module.exports = mongoose.model('Datapoint', new Schema({
     filename: {
         type: String,
@@ -20,12 +18,11 @@ module.exports = mongoose.model('Datapoint', new Schema({
         default: "No label"
     },
     latitude: {
-        type: Double,
+        type: Number,
         required: true
     },
     longitude: {
-        type: Double,
+        type: Number,
         required: true
     },
-    keys: [Schema(Key)]
 }));
