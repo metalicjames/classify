@@ -15,6 +15,29 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/next_no_label', function(req, res) {
+   Datapoint.findOne({labelled: false}, function(err, datapoint) {
+       if(err || !datapoint) {
+            return res.json({success: false,
+                             message: err});
+       }
+       return res.json({success: true,
+                       datapoint: datapoint}); 
+   });
+});
+
+router.get('/labelled', function(req, res) {
+    Datapoint.find({labelled: true}, function(err, datapoints) {
+        if(err) {
+           return res.json({success: false,
+                            message: err});
+        }
+
+        return res.json({success: true,
+                         datapoints: datapoints});
+    });
+});
+
 router.get('/:datapoint_id', function(req, res) {
     Datapoint.findById(req.params.datapoint_id, function(err, datapoint) {
         if(err) {
@@ -27,16 +50,9 @@ router.get('/:datapoint_id', function(req, res) {
     });
 });
 
-router.get('/next_no_label', function(req, res) {
-   Datapoint.findOne({labelled: false}, function(err, result) {
-      return result._id; 
-   });
-});
-
 router.put('/:datapoint_id', function(req, res) {
     req.checkBody('label', 'Label is required')
-                                    .notEmpty()
-                                    .isString();
+                                    .notEmpty();
 
     req.getValidationResult().then(function(errors) {
         if(!errors.isEmpty()) {
@@ -48,8 +64,8 @@ router.put('/:datapoint_id', function(req, res) {
                              message: errs.join('/n')
                             });
         }
-        
-        Datapoint.findById(req.body.datapoint_id, function(err, datapoint) {
+ 
+        Datapoint.findById(req.params.datapoint_id, function(err, datapoint) {
             if(err) {
                 return res.json({success: false,
                                  message: err});
